@@ -3,18 +3,19 @@ int _putchar(char c)
 {
 	return (write(1,&c,1));
 }
-
 int _printf(const char *format, ...)
 {
+	va_list arg;
+	char * currentLetter;
+	int i;
+	int nbPrinted;
+	i = 0;
+	nbPrinted = 0;
 	if( !format || (format[0] == '%' && format[1] == '\0') )
 	{
 		return -1;
 	}
-	va_list arg;
 	va_start(arg,format);
-	int i = 0;
-	int nbPrinted =  0;
-	char * currentLetter ;
 	while( *(format + i)  != '\0' )
 	{
 	if( *(format + i) != '%' )
@@ -47,4 +48,3 @@ int _printf(const char *format, ...)
 	va_end(arg);
 	return nbPrinted;
 }
-
