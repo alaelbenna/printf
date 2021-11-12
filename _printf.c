@@ -6,8 +6,7 @@ int _putchar(char c)
 int _printf(const char *format, ...)
 {
 	va_list arg;
-	char * currentLetter;
-	int i;
+	int i, fun = 0;
 	int nbPrinted;
 	i = 0;
 	nbPrinted = 0;
@@ -16,33 +15,30 @@ int _printf(const char *format, ...)
 		return -1;
 	}
 	va_start(arg,format);
-	while( *(format + i)  != '\0' )
+	while( *(format + i)  && format)
 	{
-	if( *(format + i) != '%' )
-	{
-		_putchar(*(format + i));
-		nbPrinted++;
-	}
-	else
-	{
-	switch (*(format + i + 1))
-	{
-		case 'c':
-			_putchar( (char) va_arg(arg,int));
+		if( *(format + i) != '%' )
+		{
+			_putchar(*(format + i));
 			nbPrinted++;
-		break;
-		case 's':
-			currentLetter =  va_arg(arg,char *);
-			while ( (*currentLetter) != '\0')
+		}
+		if (*(format + i) == '%')
+		{
+			fun = get_func(*(format + (i + 1)), arg);
+			if (fun != 0)
 			{
-				_putchar(*currentLetter);
-				nbPrinted++;
-				currentLetter++;
+				nbPrinted =  nbPrinted + fun;
+				i = i + 2;
+				continue;
+
+
 			}
-			break;
-	}
-	i++;		
-	}
+			if (*(format + (i + 1)) == '\0')
+			{
+				_putchar(*(format + i));
+				nbPrinted++;
+			}
+		}
 	i++;
 	}
 	va_end(arg);
